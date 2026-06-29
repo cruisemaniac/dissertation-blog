@@ -1,0 +1,19 @@
+title: Trolley-X
+description: >-
+  Building an autonomous, retrofittable multi-payload follow-me cart —
+  an MSc Robotics dissertation project at Middlesex University Dubai.
+author: Ashwin, Shalaby & Vignesh
+theme: minima
+show_excerpts: true
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Footer / nav
+minima:
+  social_links: []
+
+# Build settings
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
