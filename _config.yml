@@ -5,6 +5,7 @@ description: >-
 author: Ashwin, Shalaby & Vignesh
 theme: minima
 show_excerpts: true
+baseurl: /dissertation-blog
 
 plugins:
   - jekyll-feed

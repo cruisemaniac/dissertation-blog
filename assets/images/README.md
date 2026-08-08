@@ -5,5 +5,5 @@ Put blog images here (team photo, concept sketch, Gantt, build photos, plots, sc
 Reference them in a post like:
 
 ```
-![Project Gantt](/assets/images/gantt.png)
+![Project Gantt]({{ '/assets/images/gantt.png' | relative_url }})
 ```

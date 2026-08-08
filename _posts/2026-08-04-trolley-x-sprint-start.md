@@ -24,7 +24,7 @@ To keep the processing fast and the data streams clean, we divided the labor int
 ### Today’s Milestone Checkpoints
 
 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
-  <img src="/assets/images/IMG_0526.jpeg" alt="Current state of Wiring" />
+  <img src="{{ '/assets/images/IMG_0526.jpeg' | relative_url }}" alt="Current state of Wiring" />
 </div>
 
 With the architecture locked, we made serious headway on the physical chassis today:

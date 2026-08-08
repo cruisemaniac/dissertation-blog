@@ -10,11 +10,11 @@ After wrapping up the initial fabrication and basic mechanical assembly yesterda
 Here is a look at the hardware baseline as it sits on the workbench right now.
 
 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
-  <img src="/assets/images/IMG_0520.jpeg" alt="Trolley-X chassis on the workbench" />
-  <img src="/assets/images/IMG_0521.jpeg" alt="Trolley-X chassis from another angle" />
-  <img src="/assets/images/IMG_0522.jpeg" alt="Trolley-X with motors and drivetrain components" />
-  <img src="/assets/images/IMG_0524.jpeg" alt="Close-up of the assembled hardware" />
-  <img src="/assets/images/IMG_0527.JPG" alt="Additional view of the fabricated robot" />
+  <img src="{{ '/assets/images/IMG_0520.jpeg' | relative_url }}" alt="Trolley-X chassis on the workbench" />
+  <img src="{{ '/assets/images/IMG_0521.jpeg' | relative_url }}" alt="Trolley-X chassis from another angle" />
+  <img src="{{ '/assets/images/IMG_0522.jpeg' | relative_url }}" alt="Trolley-X with motors and drivetrain components" />
+  <img src="{{ '/assets/images/IMG_0524.jpeg' | relative_url }}" alt="Close-up of the assembled hardware" />
+  <img src="{{ '/assets/images/IMG_0527.JPG' | relative_url }}" alt="Additional view of the fabricated robot" />
 </div>
 
 ### The Mechanical Foundation

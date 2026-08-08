@@ -27,7 +27,7 @@ Then write the body in Markdown. Posts appear on the home page automatically, ne
 
 ## Images / video
 
-- Put images in `assets/images/` and reference them as `![caption](/assets/images/your-file.jpg)`.
+- Put images in `assets/images/` and reference them with `relative_url`, for example `![caption]({{ '/assets/images/your-file.jpg' | relative_url }})`.
 - For video, embed a YouTube link or upload to the repo and link it.
 
 ## Run locally (optional)
