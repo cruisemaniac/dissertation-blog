@@ -1,16 +1,17 @@
 ---
 layout: post
-title: "Eyes and Ears: Bringing the LiDAR and UWB Online"
+title: "LiDAR and UWB Integration"
 date: 2026-08-28 09:00:00 +0400
 categories: [Updates, Research]
 ---
 
-With the chassis wired and the dual-board architecture locked, today was about perception — giving Trolley-X the two senses the entire dissertation rests on. One sensor to *see* the world and brake for it, and one to *know where its human is*. Both got mounted, wired, and talking today. Neither did it without a fight.
+The chassis is wired and the dual-board architecture is defined. Today we integrated the two sensors that support this dissertation. The LiDAR detects obstacles for braking. The Ultra-Wideband sensor measures the user's position. We mounted and connected both sensors. We also established communication with both sensors.
 
-### The LiDAR: A Spinning Wall of Distance
-The Slamtec RPLiDAR A1 now sits on the top deck, spinning up a 2D picture of everything around the cart. This is the sensor behind our second research question — the velocity-dependent braking zones — so it feeds its `/scan` stream straight into the safety supervisor that decides when the trolley is allowed to move.
+### LiDAR Integration
 
-Bring-up on the Pi 5 went through the `sllidar_ros2` driver. The unit enumerated cleanly, reported its serial number, firmware 1.29, and a health status of OK on the first try. The top deck is now genuinely the safety-critical layer of the robot: the LiDAR dome, a hardware emergency-stop mushroom, and the short-range ultrasonic sensors all live up there together.
+The Slamtec RPLiDAR A1 is mounted on the top deck. It produces a two-dimensional map of the area around the cart. This sensor supports the second research question about velocity-dependent braking zones. Its `/scan` stream goes to the safety supervisor. The supervisor controls when the trolley can move.
+
+We brought up the LiDAR on the Pi 5 with the `sllidar_ros2` driver. The unit enumerated correctly. It reported its serial number, firmware version 1.29, and an OK health status on the first test. The top deck contains the safety-critical components. These components are the LiDAR, the hardware emergency-stop button, and the short-range ultrasonic sensors.
 
 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
   <a href="{{ '/assets/images/2026-08-28-sensor-deck-profile.jpeg' | relative_url }}" target="_blank" rel="noopener">
@@ -18,8 +19,9 @@ Bring-up on the Pi 5 went through the `sllidar_ros2` driver. The unit enumerated
   </a>
 </div>
 
-### The UWB: Ranging by Time-of-Flight
-The other new sense is Ultra-Wideband. The REYAX RYUW122 handles the precise time-of-flight distance measurement between the cart and the user — the raw signal that our first research question then runs through a Kalman filter to smooth out the jitter and stabilise the follow-me behaviour.
+### UWB Integration
+
+The second sensor is an Ultra-Wideband device. The REYAX RYUW122 measures the time-of-flight distance between the cart and the user. The first research question uses this raw distance signal as input to a Kalman filter. The filter will reduce measurement jitter and stabilize follow-me behavior.
 
 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
   <a href="{{ '/assets/images/2026-08-28-ryuw122-uwb-module.jpeg' | relative_url }}" target="_blank" rel="noopener">
@@ -27,10 +29,11 @@ The other new sense is Ultra-Wideband. The REYAX RYUW122 handles the precise tim
   </a>
 </div>
 
-And here is the hour we did not budget for. Straight out of the box, the module was completely silent — power was fine, wiring looked right, but the serial port simply would not respond. The culprit was the `NRST` reset line. On this breakout it has no dependable internal pull-up, so left floating it sits in (or right on the edge of) reset, and the UART never wakes up. The fix was a single jumper: tie `NRST` to the Pi's 3.3&nbsp;V rail (physical pin 17) to actively hold the module *out* of reset. The instant that wire went in, the RYUW122 started answering. One wire, one hour, one lesson filed away.
+The module did not respond after the first connection. The supply voltage and wiring were correct. The serial port did not respond. The cause was the `NRST` reset line. This breakout board does not provide a reliable internal pull-up. A floating `NRST` line can keep the module in reset. The UART then does not start. We connected `NRST` to the Pi's 3.3&nbsp;V rail at physical pin 17. This connection holds the module out of reset. The RYUW122 responded after we made this connection.
 
-### Wiring Into the Brain
-Both sensors now route into the Raspberry Pi 5 running ROS 2 — the LiDAR over USB, the UWB over serial. That keeps the data streams clean and lets the Pi do the fusion natively without dragging the microcontrollers into it.
+### Connection to the Raspberry Pi
+
+Both sensors connect to the Raspberry Pi 5, which runs ROS 2. The LiDAR uses USB. The UWB module uses serial communication. This arrangement keeps the data streams separate. It also allows the Pi to perform sensor fusion without using the microcontrollers.
 
 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
   <a href="{{ '/assets/images/2026-08-28-pi5-integration.jpeg' | relative_url }}" target="_blank" rel="noopener">
@@ -38,4 +41,4 @@ Both sensors now route into the Raspberry Pi 5 running ROS 2 — the LiDAR over 
   </a>
 </div>
 
-With both sensors finally answering, we propped the stack up on blocks for its first full bring-up on the Pi — and immediately walked into a power gremlin that had nothing to do with either sensor, and everything to do with a single overloaded buck converter. That is the next post.
+Both sensors responded during the first full bring-up on the Pi. We placed the chassis on blocks for this test. The test then revealed a power problem. The problem was an overloaded buck converter, not either sensor. The next post describes this problem.

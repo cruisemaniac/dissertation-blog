@@ -10,33 +10,33 @@ pinned: true
 **Module:** PDE4445 Robotics Dissertation Project (2025-2026)  
 **Project Title:** Scientific Evaluation of UWB-LiDAR Sensor Fusion for Robust Indoor Human-Robot Collaboration
 
-### **The Core Research Question**
-While many autonomous cart projects focus on pure mechanical construction, our dissertation aims to investigate the performance limitations of low-cost sensor fusion in highly dynamic, unstructured environments. Our research is guided by the following overarching question:
+### **Research Question**
+Many autonomous cart projects focus on mechanical construction. This dissertation investigates the performance limits of low-cost sensor fusion in dynamic, unstructured environments. The main research question is:
 
 > *"How does the integration of predictive sensor fusion (Kalman-filtered UWB and velocity-dependent LiDAR) improve the navigational stability and collision-avoidance capabilities of an autonomous follow-cart in dynamic pedestrian environments?"*
 
-### **Scientific Inquiries**
-To answer this, our team is analyzing data collected from our prototype to investigate two specific technical problems:
+### **Technical Questions**
+The team will analyze data from the prototype. The analysis will address two technical questions:
 
-**1. Estimation & Control**
-* **Inquiry:** How does applying a Kalman filter to Ultra-Wideband (UWB) telemetry reduce positional jitter and stabilize motor velocity compared to raw UWB data during hands-free operation?
+**1. Estimation and control**
+* **Question:** How does a Kalman filter applied to Ultra-Wideband (UWB) telemetry reduce position jitter and stabilize motor velocity when compared with raw UWB data during hands-free operation?
 
-**2. Predictive Safety Logic**
-* **Inquiry:** What is the impact of a predictive, velocity-dependent LiDAR braking zone model on reducing false-positive emergency stops compared to a static three-zone system in unstructured spaces?
+**2. Predictive safety logic**
+* **Question:** Does a predictive, velocity-dependent LiDAR braking-zone model reduce false emergency stops when compared with a static three-zone system in unstructured spaces?
 
 
 
 ### **Research Motivation**
-Industrial-grade autonomous mobile robots (AMRs) rely on high-cost, proprietary sensor suites (e.g., 3D LiDAR, depth cameras). There is a significant gap in the literature regarding whether low-cost, retrofittable hardware can achieve comparable reliability. Our work is not simply about building a cart; it is an investigation into the **limits of performance for budget-constrained robotics**.
+Industrial autonomous mobile robots (AMRs) use high-cost, proprietary sensor systems, such as 3D LiDAR and depth cameras. The literature contains limited evidence about the reliability of low-cost, retrofittable hardware. This project investigates the **performance limits of budget-constrained robotics**.
 
-### **Our Scientific Approach**
-To answer our research questions, we are adopting an evaluation-focused methodology:
-* **Quantitative Performance Logging:** Comparing raw sensor inputs vs. filtered state outputs to measure stability (e.g., using Root Mean Square Error metrics).
-* **Standardized Stress Testing:** Evaluating LiDAR safety braking performance against diverse, real-world obstacles to assess false-positive rates.
-* **Critical Discussion:** Comparing our results against established literature on UWB jitter and reactive collision avoidance to draw meaningful conclusions.
+### **Method**
+The project uses an evaluation-focused method:
+* **Quantitative performance logging:** Compare raw sensor inputs with filtered state outputs. Use Root Mean Square Error metrics to measure stability.
+* **Standardized stress testing:** Test LiDAR braking performance with different real-world obstacles. Measure the rate of false emergency stops.
+* **Critical discussion:** Compare the results with published research on UWB jitter and reactive collision avoidance.
 
 
 
 ***
 
-*Stay tuned for our upcoming Literature Review and Methodology updates as we begin our data collection phase!*
+*The next updates will describe the literature review, the method, and the data collection phase.*

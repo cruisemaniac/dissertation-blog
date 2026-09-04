@@ -1,25 +1,28 @@
 ---
 layout: post
-title: "Chasing a Ghost: The Undervoltage That Kept Trolley-X in STOP"
+title: "Undervoltage Caused Trolley-X to Hold STOP"
 date: 2026-08-28 18:00:00 +0400
 categories: [Updates, Research]
 ---
 
-Fresh off getting the LiDAR and UWB talking, we propped Trolley-X up on blocks and launched the full ROS 2 stack on the Pi 5 for the very first time. It came up — and then flatly refused to move. What followed was a multi-hour hunt that ended somewhere we did not expect: not in the code, but in a single buck converter.
+After we connected the LiDAR and UWB, we placed Trolley-X on blocks. We started the full ROS 2 stack on the Pi 5 for the first time. The stack started, but the trolley did not move. The investigation lasted several hours. It identified a fault in one buck converter, not in the software.
 
-### The Symptom: A LiDAR That Reads but Won't Scan
-Every launch told the same story. The `sllidar` node connected, read the serial number, firmware, and a health status of OK — and then, roughly two seconds in, died with `Can not start scan: 80008002`. At the same moment, our safety supervisor logged exactly what it is designed to log when it is flying blind:
+### Symptom: LiDAR Does Not Scan
+
+Each launch produced the same result. The `sllidar` node connected. It read the serial number, firmware, and OK health status. After approximately two seconds, it stopped with `Can not start scan: 80008002`. The safety supervisor recorded the following message:
 
 ```
 STOP zone: scan timeout -> holding STOP
 ```
 
-So the trolley was doing the *right* thing — it just had nothing to see.
+The trolley therefore performed the required safe action. It held STOP because it had no scan data.
 
-### The Red Herrings
-The first suspects were the boring ones. A stale driver process holding the serial port. Then `ModemManager`, which loves to probe `/dev/ttyUSB*` and corrupt a handshake — a classic on Raspberry Pi. We stopped it. No change. Then the scan mode: the motor was clearly spinning and the health reads were clean, so we forced the driver into plain Standard mode. Still `80008002`. The failure was *deterministic* — same error, same two-second mark, every single time — and that was the clue. Random contention is flaky. This was a wall.
+### Initial Checks
 
-### The Kernel Tells the Truth
+We first checked for a stale driver process that held the serial port. We then stopped `ModemManager`, which can probe `/dev/ttyUSB*` during communication. The result did not change. The scan motor was spinning and the health status was OK. We therefore set the driver to Standard mode. The error remained `80008002`. The failure was deterministic. It occurred at the same time and produced the same error during every test. This result indicated a repeatable hardware condition.
+
+### Kernel Evidence
+
 `dmesg` gave the whole game away:
 
 ```
@@ -27,7 +30,7 @@ hwmon hwmon2: Undervoltage detected!
 cp210x ttyUSB0: failed set request 0x12 status: -110
 ```
 
-The Pi's own under-voltage detector was firing on repeat, and the LiDAR's CP210x USB adapter was timing out on a control transfer (`-110` is a timeout). The little voltmeter on the buck reads a comfortable ~5&nbsp;V — but that display samples slowly and shows an average. The brown-out that breaks the scan is a *millisecond* transient it can never show.
+The Pi's under-voltage detector reported a fault. The LiDAR CP210x USB adapter timed out during a control transfer. The value `-110` indicates a timeout. The buck converter display showed approximately 5&nbsp;V. The display samples slowly and shows an average value. The scan failure was caused by a millisecond-scale transient. The display could not show this transient.
 
 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
   <a href="{{ '/assets/images/2026-08-28-lm2596-rail-voltage.jpeg' | relative_url }}" target="_blank" rel="noopener">
@@ -35,10 +38,11 @@ The Pi's own under-voltage detector was firing on repeat, and the LiDAR's CP210x
   </a>
 </div>
 
-The mechanism finally made sense. Reading the LiDAR's serial number is a tiny electrical blip, so it succeeds. But *commanding a scan* powers up the laser and receiver on top of the already-spinning motor. That combined load step drags the 5&nbsp;V rail below threshold faster than the converter can recover, the CP210x drops out mid-handshake, and the SDK surfaces the whole thing as a scan timeout.
+The mechanism is now clear. Reading the LiDAR serial number creates a small electrical load, so that operation succeeds. A scan command powers the laser and receiver. The motor is already spinning at this time. The combined load reduces the 5&nbsp;V rail below its threshold. The converter cannot recover quickly enough. The CP210x then loses the connection during the handshake. The SDK reports this loss as a scan timeout.
 
-### Root Cause: One Buck, Three Mouths
-Here is the real problem. A single LM2596 is feeding the Pi 5, the RPLiDAR (through the Pi's USB), *and* a UWB sensor — all off the same output pin. A cheap LM2596 realistically holds around 2&nbsp;to&nbsp;2.5&nbsp;A before it droops and heats; a Pi 5 alone can ask for up to 5&nbsp;A under load. Stack the LiDAR's scan-start transient on top of that and the rail simply collapses. The thin hookup wire between the converter and the Pi drops even more voltage under current, and the LiPo sags as it discharges. Every link in the chain is working against us.
+### Root Cause: Shared Buck Converter
+
+A single LM2596 supplies the Pi 5, the RPLiDAR through the Pi USB port, and one UWB sensor. The converter can supply approximately 2 to 2.5 A before its output decreases and its temperature increases. The Pi 5 can require up to 5 A under load. The LiDAR scan-start transient adds to this load. The 5 V rail then collapses. The thin wire between the converter and the Pi causes an additional voltage drop. The LiPo voltage also decreases during discharge. These conditions combine to produce the fault.
 
 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
   <a href="{{ '/assets/images/2026-08-28-chassis-wiring-topdown.jpeg' | relative_url }}" target="_blank" rel="noopener">
@@ -46,7 +50,8 @@ Here is the real problem. A single LM2596 is feeding the Pi 5, the RPLiDAR (thro
   </a>
 </div>
 
-### The Silver Lining: The Safety Layer Did Its Job
-It is worth stopping on the one thing that went completely right. The trolley lost its scans, assumed the worst, and held STOP rather than driving blind into a room it could no longer see. Under-voltage led to a sensor dropout, and the fail-safe engaged exactly as designed. That is not a footnote — it is a genuine reliability result for the braking model, and we got to watch it fire under a real fault instead of a contrived one.
+### Safety Response
 
-The fix from here is electrical, not software: give the LiDAR its own regulated 5&nbsp;V supply, feed the Pi from a converter sized for its true peak with headroom to spare, and stop three hungry loads from fighting over one tired rail. We are sizing that power redesign now — and taking the numbers to our supervisor before we commit to parts. More once Trolley-X can hold its rail steady under a full scan.
+The trolley lost its scan data and held STOP. It did not drive without obstacle data. The under-voltage caused a sensor dropout. The fail-safe responded as designed. This test provides a reliability result for the braking model because the fault occurred in a real hardware condition.
+
+The corrective action is electrical. Provide the LiDAR with a separate regulated 5&nbsp;V supply. Power the Pi from a converter that supports its peak current with additional capacity. Do not connect the three loads to one converter output. We are calculating the requirements for this redesign. We will review the values with our supervisor before we purchase parts.

@@ -5,9 +5,9 @@ date: 2026-08-03 09:00:00 +0000
 categories: [Updates, Research]
 ---
 
-After wrapping up the initial fabrication and basic mechanical assembly yesterday, Trolley-X finally has a physical footprint. The transition from CAD screens and whiteboards to a tangible, rolling chassis is always a massive milestone in any robotics build.
+We completed the initial fabrication and mechanical assembly yesterday. Trolley-X now has a physical chassis. The chassis has moved from the CAD model and the design notes to a rolling platform.
 
-Here is a look at the hardware baseline as it sits on the workbench right now.
+The images show the current hardware baseline on the workbench.
 
 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
   <a href="{{ '/assets/images/IMG_0520.jpeg' | relative_url }}" target="_blank" rel="noopener">
@@ -27,31 +27,31 @@ Here is a look at the hardware baseline as it sits on the workbench right now.
   </a>
 </div>
 
-### The Mechanical Foundation
-The core of Trolley-X is built for a 4-wheel-drive skid-steer (differential drive) setup. The heavy lifting is handled by:
+### Mechanical System
+Trolley-X uses a four-wheel-drive skid-steer differential-drive layout. The main components are:
 
-* 4x DC Gear Motors: Each motor is equipped with a built-in rotary encoder.
+* **Four DC gear motors:** Each motor has a built-in rotary encoder.
 
-* Dual L298N Motor Drivers: We mounted two separate red L298N H-bridge modules to the chassis. Because each driver channel has a strict 2-Amp limit, splitting the load across two boards ensures we don't fry any silicon when the cart pulls a heavy load.
+* **Two L298N motor drivers:** We mounted two L298N H-bridge modules on the chassis. Each driver channel has a 2 A limit. The two boards distribute the motor load and prevent an overload on one board.
 
-* The Power Source: An 11.1V 3S LiPo battery, stepped down where necessary via an LM2596 buck converter.
+* **Power source:** An 11.1 V 3S LiPo battery supplies the system. An LM2596 buck converter reduces the voltage where required.
 
-### The Brains
-With the mechanical assembly locked, the rover is waiting for its nervous system to be wired up. Sitting on the desk, ready for integration, are the three main logic units:
+### Control Hardware
+The mechanical assembly is complete. The following control units are ready for integration:
 
-* Raspberry Pi 5: The main computer. This will run the ROS 2 navigation stack, the diff_drive_controller, and the sensor fusion nodes.
+* **Raspberry Pi 5:** This is the main computer. It will run the ROS 2 navigation stack, `diff_drive_controller`, and the sensor-fusion nodes.
 
-* Arduino Uno R3: A classic 8-bit, 5V microcontroller.
+* **Arduino Uno R3:** This is an 8-bit, 5 V microcontroller.
 
-* ESP-WROOM-32: A modern 32-bit, dual-core microcontroller with onboard Wi-Fi and Bluetooth.
+* **ESP-WROOM-32:** This is a 32-bit, dual-core microcontroller with Wi-Fi and Bluetooth.
 
-### The Sensor Suite
-To achieve the "follow-me" tracking and local navigation, the hardware manifest includes:
+### Sensors
+The sensor system supports follow-me tracking and local navigation. It includes:
 
-* Slamtec RPLiDAR A1: For 2D obstacle avoidance.
+* **Slamtec RPLiDAR A1:** This sensor supports 2D obstacle avoidance.
 
-* MPU6050 IMU: A 6-axis accelerometer and gyroscope to keep the robot's heading accurate.
+* **MPU6050 IMU:** This sensor contains a six-axis accelerometer and gyroscope. It measures the robot heading.
 
-* REYAX RYUW122_Lite (Incoming): Ultra-Wideband (UWB) modules that will handle the highly precise Time-of-Flight distance tracking between the cart and the user.
+* **REYAX RYUW122_Lite (incoming):** These Ultra-Wideband (UWB) modules will measure the time-of-flight distance between the cart and the user.
 
-With the chassis fabricated and the components gathered, the physical build is complete. Now begins the hardest part: wiring the electronics without creating a data bottleneck.
+The physical build is complete. The next task is to wire the electronics. The wiring must support the required data rates without creating a bottleneck.
