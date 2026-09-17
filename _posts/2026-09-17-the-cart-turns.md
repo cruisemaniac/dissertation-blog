@@ -23,7 +23,7 @@ I removed both L298Ns and wired in two BTS7960 modules, one per side. Each side'
 
 ![The BTS7960 motor driver wired to the Pi and the Arduino]({{ "/assets/images/2026-09-17-bts7960-driver.jpeg" | relative_url }})
 
-The firmware changed with the hardware. The drive logic now writes `RPWM` or `LPWM`, never both. I hold the enable pin high to arm the bridges. Most important, I dropped the PWM ceiling to 120. With the old L298N the big voltage drop protected the 6&nbsp;V motors by accident. With the near-zero-drop MOSFETs, the motor sees almost the full rail, so a lower ceiling now keeps it near 6&nbsp;V. I also added a short breakaway pulse: on the start of a turn, the wheel gets a brief high-power kick to punch through the scrub, then settles back.
+The firmware changed with the hardware. The drive logic now writes `RPWM` or `LPWM`, never both. I hold the enable pin high to arm the bridges. Most important, I dropped the PWM ceiling to 120. With the old L298N the big voltage drop protected the 6&nbsp;V motors by accident. With the near-zero-drop MOSFETs, the motor sees almost the full rail, so a lower ceiling now keeps it near 6&nbsp;V.
 
 The cart started to rotate. That alone was the wall coming down.
 
