@@ -1,6 +1,6 @@
 # Trolley-X project blog
 
-A minimal Jekyll site (minima theme) for the PDE4445 dissertation blog, hosted on GitHub Pages.
+A minimal Jekyll site (minima theme) for the PDE4439 dissertation blog, hosted on GitHub Pages.
 
 ## Go live (one time)
 
@@ -36,6 +36,7 @@ Then write the body in Markdown. Posts appear on the home page automatically, ne
 bundle install
 bundle exec jekyll serve
 ```
+
 Then open `http://localhost:4000`.
 
 ## Cadence & integrity

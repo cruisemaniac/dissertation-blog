@@ -4,7 +4,7 @@ title: Home
 ---
 
 Authors: Ashwin Murali Thanalapati, Mohammed Shalaby, Vignesh Lakshmanaswamy
-Module: PDE4445 Robotics Dissertation Project (2025-2026)
+Module: PDE4439 Robotics Dissertation Project (2025-2026)
 Project Title: Scientific Evaluation of UWB-LiDAR Sensor Fusion for Robust Indoor Human-Robot Collaboration
 The Core Research Question
 
@@ -18,11 +18,11 @@ To answer this, our team is analyzing data collected from our prototype to inves
 
 1. Estimation & Control
 
-    Inquiry: How does applying a Kalman filter to Ultra-Wideband (UWB) telemetry reduce positional jitter and stabilize motor velocity compared to raw UWB data during hands-free operation?
+   Inquiry: How does applying a Kalman filter to Ultra-Wideband (UWB) telemetry reduce positional jitter and stabilize motor velocity compared to raw UWB data during hands-free operation?
 
 2. Predictive Safety Logic
 
-    Inquiry: What is the impact of a predictive, velocity-dependent LiDAR braking zone model on reducing false-positive emergency stops compared to a static three-zone system in unstructured spaces?
+   Inquiry: What is the impact of a predictive, velocity-dependent LiDAR braking zone model on reducing false-positive emergency stops compared to a static three-zone system in unstructured spaces?
 
 Research Motivation
 

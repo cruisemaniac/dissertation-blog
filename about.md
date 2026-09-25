@@ -8,7 +8,7 @@ permalink: /about/
 
 Trolley-X is an autonomous, retrofittable cart that follows its operator
 hands-free, carries varied payloads, and navigates safely around people. It
-is built for the PDE4445 Robotics Dissertation Project at Middlesex University
+is built for the PDE4439 Robotics Dissertation Project at Middlesex University
 Dubai, and extends a validated ROS 2 Jazzy simulation into a physical
 prototype.
 
@@ -50,5 +50,5 @@ One ROS 2 launch file starts six nodes:
 - **Vignesh Lakshmanasamy** — mechanical & power (chassis, drivetrain, power
   system)
 
-_Supervisor: Dr. Judhi Prasetyo · Module: PDE4445, Middlesex University
+_Supervisor: Dr. Judhi Prasetyo · Module: PDE4439, Middlesex University
 Dubai._
