@@ -21,7 +21,9 @@ The orange line is the raw two-anchor bearing. It swings across the full range a
 
 ### The number
 
-Across three runs, the filter cuts the bearing's step-to-step jitter by 74 to 83 percent, and it roughly halves the spread. That is consistent, and because it is a same-input comparison, it is honest.
+Across three runs, the filter cuts the bearing's step-to-step jitter by 74 to 83 percent, and it roughly halves the spread.
+
+*Update, 25 Sep: I later re-ran this analysis on all six runs with one fixed method (mean absolute first difference of the bearing, raw against filtered, at the same instants). The cut is 75 to 87 percent in all six runs, and the spread falls by a factor of 1.8 to 2.9. The 74 to 83 percent figure above could not be reproduced exactly, so use 75 to 87 percent.* That is consistent, and because it is a same-input comparison, it is honest.
 
 So the answer to the research question is yes, with a sharp edge to it. The Kalman filter is not a cosmetic smoother laid over a signal that already works. The raw two-anchor bearing does not work for steering at this baseline. The filter is what makes it usable at all. That is a stronger claim than "the filter helps," and the data backs it.
 
