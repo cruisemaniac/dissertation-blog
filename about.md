@@ -42,6 +42,12 @@ One ROS 2 launch file starts six nodes:
   with odometry into a single position estimate.
 - **`follow_controller`** — turns that fused estimate into a motion command.
 
+## Source code
+
+All of the code for Trolley-X lives on GitHub:
+[github.com/cruisemaniac/trolley-x](https://github.com/cruisemaniac/trolley-x).
+That includes the ROS 2 nodes described above.
+
 ## The team
 
 - **Ashwin Murali Thanalapati** — sensor fusion & control (UWB-Kalman follow,

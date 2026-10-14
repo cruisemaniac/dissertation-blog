@@ -6,6 +6,9 @@ title: Home
 Authors: Ashwin Murali Thanalapati, Mohammed Shalaby, Vignesh Lakshmanaswamy
 Module: PDE4439 Robotics Dissertation Project (2025-2026)
 Project Title: Scientific Evaluation of UWB-LiDAR Sensor Fusion for Robust Indoor Human-Robot Collaboration
+
+Source code: [github.com/cruisemaniac/trolley-x](https://github.com/cruisemaniac/trolley-x)
+
 The Core Research Question
 
 While many autonomous cart projects focus on pure mechanical construction, our dissertation aims to investigate the performance limitations of low-cost sensor fusion in highly dynamic, unstructured environments. Our research is guided by the following overarching question:
